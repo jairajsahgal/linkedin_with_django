@@ -11,9 +11,21 @@ from selenium.webdriver.chrome.service import Service
 from bs4 import BeautifulSoup
 import logging
 import os
+import re
 config = os.environ
 logging.basicConfig(filename='scraping.log', level=logging.INFO, format='%(asctime)s - %(levelname)s: %(message)s')
 logger = logging.getLogger("scraping")
+
+def get_followers(input_string):
+    followers_match = re.search(r'(\d+,\d+)', input_string)
+
+    if followers_match:
+        # Remove commas and convert to an integer
+        followers_count = int(followers_match.group(1).replace(',', ''))
+        return followers_count
+    else:
+        return None
+
 
 
 #function to ensure all key data fields have a value
@@ -77,6 +89,11 @@ def get_values(linkedin_profile_url:str):
     for i in follower_tag:
         i.find('div',{'class':'artdeco-entity-lockup__caption ember-view reusable-org-card__secondary-subtitle'})
         follower = i.text
+        logger.info(f"Found number of followers: {follower}")
+        if "followers" in follower:
+            follower = get_followers(follower)
+            logger.info(f"Stripped text: {follower}")
+            break
     logger.info(follower_tag)
     data["followers"]=follower
 
