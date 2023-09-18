@@ -8,6 +8,14 @@ lxml = "*"
 selenium = "*"
 beautifulsoup4 = "*"
 requests = "*"
+pandas = "*"
+parsel = "*"
+ipython = "*"
+jupyter = "*"
+psycopg2 = "*"
+sqlalchemy = "*"
+django = "*"
+pillow = "*"
 
 [dev-packages]
 
